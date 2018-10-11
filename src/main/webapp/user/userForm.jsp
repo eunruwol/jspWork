@@ -32,6 +32,21 @@ $(document).ready(function(){
 	});
 });
 </script>
+<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+<script>
+	// 주소 검색 버튼 클릭이벤트가 발생 했을때 실행
+    new daum.Postcode({
+        oncomplete: function(data) {
+            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
+            // 예제를 참고하여 다양한 활용법을 확인해 보세요.
+            console.log(data);
+            // 주소 : roadAddress
+            // 상세주소 : ""
+            // 우편번호 : zonecode
+            // 여기서부터 진행
+        }
+    }).open();
+</script>
 </head>
 
 <body>
@@ -48,78 +63,64 @@ $(document).ready(function(){
 					<div class="form-group">
 						<label for="userNm" class="col-sm-2 control-label"><span class="fontsize">사용자 사진</span></label>
 						<div class="col-sm-10">
-							<% if(selectUserVo.getProfile() == null){ %>
-								<img src="/profile/noimage.png" class="images"/>
-							<% }else{ %>
-								<img src="<%=selectUserVo.getProfile()%>" class="images" />
-							<% } %>
+							<img src="">
 						</div>
 					</div>
 					
 					<div class="form-group">
-						<label for="userNm" class="col-sm-2 control-label"><span class="fontsize">사용자 아이디</span></label>
+						<label for="userId" class="col-sm-2 control-label"><span class="fontsize">사용자 아이디</span></label>
 						<div class="col-sm-10">
-							<label class="control-label">
-								<%=request.getParameter("userId")%>
-							</label>
+							<input type="text" class="form-control" id="userId" name="userId" placeholder="사용자 아이디">
+						</div>
 						</div>
 					</div>
 
 					<div class="form-group">
 						<label for="userNm" class="col-sm-2 control-label"><span class="fontsize">사용자 이름</span></label>
 						<div class="col-sm-10">
-							<input type="text" class="form-control" id="userNm" name="userNm"
-								placeholder="사용자 이름" value="<%=selectUserVo.getName()%>">
+							<input type="text" class="form-control" id="name" name="name" placeholder="사용자 이름">
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="userNm" class="col-sm-2 control-label"><span class="fontsize"><span class="fontsize">주소</span></label>
 						<div class="col-sm-10">
-							<input type="text" class="form-control" id="userAddr1"
-								name="userAddr1" placeholder="주소" value="<%=selectUserVo.getAddr1()%>">
+							<input type="text" class="form-control" id="addr1" name="addr1" placeholder="주소">
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="pass" class="col-sm-2 control-label"><span class="fontsize">상세주소</span></label>
 						<div class="col-sm-10">
-							<input type="text" class="form-control" id="userAddr2" name="userAddr2"
-								placeholder="상세주소" value="<%=selectUserVo.getAddr2()%>">
+							<input type="text" class="form-control" id="addr2" name="addr2" placeholder="상세주소">
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="pass" class="col-sm-2 control-label"><span class="fontsize">우편번호</span></label>
 						<div class="col-sm-10">
-							<input type="text" class="form-control" id="userPost" name="userPost"
-								placeholder="우편번호" value="<%=selectUserVo.getZipcd()%>">
+							<input type="text" class="form-control" id="zipcd" name="zipcd" placeholder="우편번호">
 						</div>
 					</div>
-					<%
-						SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-					%>
 					<div class="form-group">
 						<label for="pass" class="col-sm-2 control-label"><span class="fontsize">생년월일</span></label>
 						<div class="col-sm-10">
-							<input type="text" class="form-control" id="userBir" name="userBir"
-								placeholder="생년월일" value="<%=sdf.format(selectUserVo.getBirth())%>">
+							<input type="text" class="form-control" id="birth" name="birth" placeholder="생년월일">
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="pass" class="col-sm-2 control-label"><span class="fontsize">이메일</span></label>
 						<div class="col-sm-10">
-							<input type="text" class="form-control" id="userMail" name="userMail"
-								placeholder="이메일" value="<%=selectUserVo.getEmail()%>">
+							<input type="text" class="form-control" id="email" name="email" placeholder="이메일">
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="pass" class="col-sm-2 control-label"><span class="fontsize">연락처</span></label>
 						<div class="col-sm-10">
-							<input type="text" class="form-control" id="userTel" name="userTel"
-								placeholder="연락처" value="<%=selectUserVo.getTel()%>">
+							<input type="text" class="form-control" id="tel" name="tel" placeholder="연락처">
 						</div>
 					</div>
 
 					<div class="form-group">
 						<div class="col-sm-offset-2 col-sm-10">
+							<button type="submit" class="btn btn-default">사용자 등록</button>
 							<button type="button" class="btn btn-default listGo">목록</button>
 						</div>
 					</div>
