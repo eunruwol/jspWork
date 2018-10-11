@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="user">
+	<select id="selectUserAll" resultType="kr.or.ddit.user.model.UserVo">
+		select rownum as rnum, jspuser.* from jspuser
+	</select>
+
+	<select id="selectUser" parameterType="String" resultType="userVo">
+		select * from jspuser where userId = #{userId}
+	</select>
+
+	<select id="selectUserByVo" parameterType="userVo" resultType="userVo">
+		select * from jspuser where userId = #{userId}
+	</select>
+
+	<select id="selectUserPageList" parameterType="pageVo" resultType="userVo">
+		select * from (select rownum rnum, a.* from
+		(select jspuser.* from jspuser order by userId) a)
+		where rnum between #{page}*#{pageSize}-(#{pageSize}-1) and #{page}*#{pageSize}
+	</select>
+	
+	<select id="getUserCnt" resultType="int">
+		select count(*) from jspuser
+	</select>
+</mapper>
