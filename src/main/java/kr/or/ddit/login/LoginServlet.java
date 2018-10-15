@@ -6,6 +6,7 @@ import java.util.Date;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -38,6 +39,32 @@ public class LoginServlet extends HttpServlet{
 		//1
 		String userId = req.getParameter("userId");
 		String password = req.getParameter("password");
+		
+		// remember-me 파라미터 받아서 sysout으로 출력
+		String rememberMe = req.getParameter("remember-me");
+		System.out.println("rememberMe : " + rememberMe);
+		
+		// rememberMe == null : 아이디 기억 사용 안함
+		if(rememberMe == null){
+			Cookie[] cookies = req.getCookies();
+			for(Cookie cookie : cookies){
+				// cookie 이름이 remember, userId 일경우 maxage를 -1설정하여 쿠키를 유효하지 않도록 설정
+				System.out.println(cookie.getName());
+				if(cookie.getName().equals("remember") || cookie.getName().equals("userId")){
+					// -1 : 브라우저 재시작시 쿠키 삭제 반영
+					// 0 : 바로 삭제
+					cookie.setMaxAge(-1);
+					resp.addCookie(cookie);
+				}
+			}
+		}else{ // 아이디 기억 사용
+			// response 객체에 쿠키를 저장
+			Cookie cookie = new Cookie("remember", "Y");
+			Cookie userIdCookie = new Cookie("userId", userId);
+			
+			resp.addCookie(cookie);
+			resp.addCookie(userIdCookie);
+		}
 		
 		//2 DB대신 상수로 대체함.. -> 10/10 DB에서 값을 가져와 비교
 		//2-1 사용자가 전송한 userId 파라미터로 사용자 조회
