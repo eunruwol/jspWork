@@ -19,48 +19,32 @@ import kr.or.ddit.user.service.UserServiceInf;
 import kr.or.ddit.util.model.StringUtil;
 
 @MultipartConfig(maxFileSize=1024*1024*5, maxRequestSize=1024*1024*5*5)
-@WebServlet("/userForm")
-public class UserFormServlet extends HttpServlet {
+@WebServlet("/userUpdateForm")
+public class UserUpdateFormServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
-	// 사용자 등록 화면
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// userForm.jsp로 위임
-		request.getRequestDispatcher("/user/userForm.jsp").forward(request, response);
+		
 	}
 	
-	// 사용자 등록
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		UserServiceInf userService = new UserService();
 		
 		// post 한글 파라미터 인코딩 처리
 		request.setCharacterEncoding("UTF-8");
 		
-		// 파일 업로드
-		Part profilePart = request.getPart("profile");
-		String contentDisposition = profilePart.getHeader("Content-disposition");
-		String fileName = StringUtil.getFileNameFromHeader(contentDisposition);		
-		
-		// 파일 쓰기
-		// url 정보를 실제 파일 경로로 변경
-		String path = getServletContext().getRealPath("/profile");
-		
-		profilePart.write(path + File.separator + fileName);
-		
 		// 파라미터 받아오기
-		// userId, name, pass, addr1, addr2, birth, zipcd, email, tel
+		// name, pass, addr1, addr2, birth, zipcd, email, tel
 		String userId = request.getParameter("userId");
 		String name = request.getParameter("name");
 		String pass = request.getParameter("pass");
 		String addr1 = request.getParameter("addr1");
 		String addr2 = request.getParameter("addr2");
-		String birth = request.getParameter("birth");
 		String zipcd = request.getParameter("zipcd");
 		String email = request.getParameter("email");
-		String tel = request.getParameter("tel");
-		String profile = "/profile/" + fileName;
-		
-		System.out.println(userId + " / " + name + " / " + pass + " / " + addr1 + " / " +
-		addr2 + " / " + birth + " / " + zipcd + " / " + email + " / " + tel);
+		String tel = request.getParameter("tel");	
+		String birth = request.getParameter("birth");
+		Part profilePart = request.getPart("profile");
 		
 		// 파라미터를 userVo
 		UserVo userVo = new UserVo();
@@ -72,7 +56,27 @@ public class UserFormServlet extends HttpServlet {
 		userVo.setPass(pass);
 		userVo.setEmail(email);
 		userVo.setTel(tel);
-		userVo.setProfile(profile);
+		
+		String contentDisposition = profilePart.getHeader("Content-disposition");
+		String fileName = StringUtil.getFileNameFromHeader(contentDisposition);
+		
+		if(fileName.equals("")){
+			// fileName이 null일때 기존에 파일명을 가지고 와서 DB에 넣기
+			
+			// 1. DB에 있는 파일명 가지고 오기
+			String result = userService.selectProfile(userId);
+			
+			// 2. vo에 파일명 넣기
+			userVo.setProfile(result);
+			
+		}else{
+			// 파일경로
+			String path = getServletContext().getRealPath("/profile");
+			profilePart.write(path + File.separator + fileName);
+			profilePart.delete();
+			
+			userVo.setProfile("/profile/" + fileName);
+		}	
 		
 		try {
 			// yyyy-MM-dd
@@ -82,14 +86,12 @@ public class UserFormServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 		
-		// 파일 업로드 과정에서 사용한 디스크 임시 영역을 정리
-		profilePart.delete();
+		System.out.println(userVo);
 		
-		// 사용자 등록 서비스 호출
-		UserServiceInf userService = new UserService();
-		int insertCnt = userService.insertUser(userVo);
+		// 사용자 수정 서비스 호출
+		int updateCnt = userService.updateUser(userVo);
 		
 		// 사용자 리스트로 이동(redirect : 서버 상태가 변경되므로 사용자가 새로고침을 통해 재요청시 중복 등록되는 현상을 막는다
-		response.sendRedirect("/userPageList?page=1&pageSize=10");
+		response.sendRedirect("/userDetail?userId=" + userId);
 	}
 }

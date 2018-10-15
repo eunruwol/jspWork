@@ -52,4 +52,28 @@ public class UserService implements UserServiceInf{
 		
 		return resultMap;
 	}
+
+	@Override
+	public int insertUser(UserVo userVo) {
+		UserDao userDao = new UserDao();
+		return userDao.insertUser(userVo);
+	}
+
+	@Override
+	public int deleteUser(String userId) {
+		UserDao userDao = new UserDao();
+		return userDao.deleteUser(userId);
+	}
+
+	@Override
+	public int updateUser(UserVo userVo) {
+		UserDao userDao = new UserDao();
+		return userDao.updateUser(userVo);
+	}
+
+	@Override
+	public String selectProfile(String userId) {
+		UserDao userDao = new UserDao();
+		return userDao.selectProfile(userId);
+	}
 }

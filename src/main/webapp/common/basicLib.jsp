@@ -7,3 +7,4 @@
 <!-- Custom styles for this template -->
 <link href="/css/dashboard.css" rel="stylesheet">
 <link href="/css/blog.css" rel="stylesheet">
+<script src="/js/datepicker.js"></script>

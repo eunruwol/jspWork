@@ -15,8 +15,7 @@ public class UserVo {
 	private String tel;
 	private String profile;
 	private Date birth;
-	private int rnum;
-	
+	private int rnum;	
 	
 	public int getRnum() {
 		return rnum;
@@ -88,24 +87,31 @@ public class UserVo {
 	public String getUserId() {
 		return userId;
 	}
+	
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
+	
 	public String getName() {
 		return name;
 	}
+	
 	public void setName(String name) {
 		this.name = name;
 	}
+	
 	public String getAlias() {
 		return alias;
 	}
+	
 	public void setAlias(String alias) {
 		this.alias = alias;
 	}
+	
 	public Date getBirth() {
 		return birth;
 	}
+	
 	public void setBirth(Date birth) {
 		this.birth = birth;
 	}
@@ -118,9 +124,4 @@ public class UserVo {
 				+ tel + ", profile=" + profile + ", birth=" + birth
 				+ ", rownum=" + rnum + "]";
 	}
-
-	
-	
-	
-	
 }

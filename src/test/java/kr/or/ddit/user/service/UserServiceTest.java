@@ -17,6 +17,7 @@ import org.junit.Test;
 public class UserServiceTest {
 
 	private UserServiceInf userService;
+	private final String TEST_USER_ID = "userIds";
 	
 	@BeforeClass
 	public static void beforeClass(){
@@ -95,8 +96,5 @@ public class UserServiceTest {
 		}
 		assertEquals(10, userList.size());
 		assertEquals(11, pageCnt);
-		
-		
 	}
-	
 }

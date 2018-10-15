@@ -62,4 +62,78 @@ public class UserDao implements UserDaoInf{
 		
 		return totalUserCnt;
 	}
+	
+	/**
+	* Method : insertUser
+	* 작성자 : pc18
+	* 변경이력 :
+	* @param userVo
+	* @return
+	* Method 설명 : 사용자 등록
+	*/
+	@Override
+	public int insertUser(UserVo userVo){
+		SqlSessionFactory sqlFactory = SqlFactoryBuilder.getSqlSessionFactory();
+		SqlSession session = sqlFactory.openSession();
+		
+		int insertCnt = session.insert("user.insertUser", userVo);
+		
+		session.commit();
+		session.close();
+		
+		return insertCnt;
+	}
+	
+	/**
+	* Method : deleteUser
+	* 작성자 : pc18
+	* 변경이력 :
+	* @param userId
+	* @return
+	* Method 설명 : 사용자 삭제
+	 */
+	@Override
+	public int deleteUser(String userId) {
+		SqlSessionFactory sqlFactory = SqlFactoryBuilder.getSqlSessionFactory();
+		SqlSession session = sqlFactory.openSession();
+		
+		int deleteCnt = session.delete("user.deleteUser", userId);
+		
+		session.commit();
+		session.close();
+		
+		return deleteCnt;
+	}
+
+	/**
+	* Method : updateUser
+	* 작성자 : pc18
+	* 변경이력 :
+	* @param userVo
+	* @return
+	* Method 설명 : 사용자 수정
+	*/
+	@Override
+	public int updateUser(UserVo userVo) {
+		SqlSessionFactory sqlFactory = SqlFactoryBuilder.getSqlSessionFactory();
+		SqlSession session = sqlFactory.openSession();
+		
+		int updateCnt = session.update("user.updateUser", userVo);
+		
+		session.commit();
+		session.close();
+		
+		return updateCnt;
+	}
+
+	@Override
+	public String selectProfile(String userId) {
+		SqlSessionFactory sqlFactory = SqlFactoryBuilder.getSqlSessionFactory();
+		SqlSession session = sqlFactory.openSession();
+		
+		String result = session.selectOne("user.selectProfile",  userId);
+		session.close();
+		
+		return result;
+	}
 }
