@@ -16,7 +16,7 @@ function getCookie(cookieName){
 		// cookie값의 시작부분 = indexOf
 		var str = cookies[i];
 		if(str.startsWith(cookieName + "=")){
-			var str = cookies[1]
+			var str = cookies[i]
 			// 끝부분(lastIndexOf)은 미포함이기때문에 +1을 붙힌다
 			cookieValue = str.substring((cookieName + "=").length);
 		}
@@ -34,7 +34,7 @@ $(document).ready(function(){
 		$("#userId").val(getCookie("userId"));
 	}
 	if(getCookie("remember") == "Y"){
-		document.getElementById("chkBox").checked = true;
+		document.getElementById("remember-me").checked = true;
 	}
 });
 </script>
