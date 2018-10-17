@@ -17,8 +17,7 @@ import kr.or.ddit.user.service.UserService;
 import kr.or.ddit.user.service.UserServiceInf;
 
 public class LoginServlet extends HttpServlet{
-	
-	//service  --> request.getMethod() : "POST", "GET" --> doGet, doPost
+	private static final long serialVersionUID = 1L;
 	
 	private String USER_ID;
 	private String PASSWORD;
@@ -92,9 +91,7 @@ public class LoginServlet extends HttpServlet{
 			
 			//2.main.jsp body영역에 이름[별명]님 안녕하세요 출력
 			HttpSession session = req.getSession();
-			session.setAttribute("userVo", userVo);
-			
-			
+			session.setAttribute("S_USER", userVo);
 			
 			//Request Dispatch 방식
 			RequestDispatcher rd = req.getRequestDispatcher("main.jsp");

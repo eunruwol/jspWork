@@ -3,6 +3,7 @@
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -37,7 +38,7 @@ $(document).ready(function(){
 <script>
 // 주소 검색 버튼 클릭이벤트가 발생 했을때 실행
 $(document).ready(function(){
-	$("#addrSearch").click(function(){		
+	$("#addrSearch").click(function(){
 	    new daum.Postcode({
 	        oncomplete: function(data) {
 	            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
@@ -63,26 +64,24 @@ $(document).ready(function(){
 		<div class="row">
 			<%@include file="/common/left.jsp"%>
 			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-				<%
-					UserVo selectUserVo = (UserVo)request.getAttribute("userVo");
-				%>
 				<form action="/userUpdateForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
 					<div class="form-group">
 						<label for="userNm" class="col-sm-2 control-label"><span class="fontsize">사용자 사진</span></label>
 						<div class="col-sm-10">
-							<% if(selectUserVo.getProfile() == null){ %>
+							<c:if test="${userVo.profile == null}">
 								<img src="/profile/noimage.png" class="images"/>
-							<% }else{ %>
-								<img src="<%=selectUserVo.getProfile()%>" class="images" />
-							<% } %>
+							</c:if>
+							<c:if test="${userVo.profile != null}">
+								<img src="${userVo.profile}" class="images"/>
+							</c:if>
 							<input type="file" id="profile" name="profile" />
-						</div>						
+						</div>
 					</div>
 					
 					<div class="form-group">
 						<label for="userNm" class="col-sm-2 control-label"><span class="fontsize">사용자 아이디</span></label>
 						<div class="col-sm-10">
-							<input type="text" class="form-control" id="userId" name="userId" value="<%=request.getParameter("userId") %>" readOnly />
+							<input type="text" class="form-control" id="userId" name="userId" value="${userVo.userId}" readOnly />
 						</div>
 					</div>
 					
@@ -90,7 +89,7 @@ $(document).ready(function(){
 						<label for="userNm" class="col-sm-2 control-label"><span class="fontsize">비밀번호</span></label>
 						<div class="col-sm-10">
 							<input type="text" class="form-control" id="pass" name="pass"
-								placeholder="사용자 이름" value="<%=selectUserVo.getPass()%>">
+								placeholder="비밀번호" value="${userVo.pass}">
 						</div>
 					</div>
 
@@ -98,15 +97,15 @@ $(document).ready(function(){
 						<label for="userNm" class="col-sm-2 control-label"><span class="fontsize">사용자 이름</span></label>
 						<div class="col-sm-10">
 							<input type="text" class="form-control" id="userNm" name="name"
-								placeholder="사용자 이름" value="<%=selectUserVo.getName()%>">
+								placeholder="사용자 이름" value="${userVo.name}">
 						</div>
 					</div>
 					
 					<div class="form-group">
-						<label for="userNm" class="col-sm-2 control-label"><span class="fontsize"><span class="fontsize">주소</span></label>
+						<label for="userNm" class="col-sm-2 control-label"><span class="fontsize">주소</span></label>
 						<div class="col-sm-10 addressDiv">
 							<input type="text" class="form-control" id="addr1"
-								name="addr1" placeholder="주소" value="<%=selectUserVo.getAddr1()%>">
+								name="addr1" placeholder="주소" value="${userVo.addr1}">
 							<button type="button" id="addrSearch" class="btn btn-default">주소검색</button>
 						</div>
 					</div>
@@ -114,38 +113,35 @@ $(document).ready(function(){
 						<label for="userNm" class="col-sm-2 control-label"><span class="fontsize">상세주소</span></label>
 						<div class="col-sm-10">
 							<input type="text" class="form-control" id="addr2" name="addr2"
-								placeholder="상세주소" value="<%=selectUserVo.getAddr2()%>">
+								placeholder="상세주소" value="${userVo.addr2}">
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="userNm" class="col-sm-2 control-label"><span class="fontsize">우편번호</span></label>
 						<div class="col-sm-10">
 							<input type="text" class="form-control" id="zipcd" name="zipcd"
-								placeholder="우편번호" value="<%=selectUserVo.getZipcd()%>">
+								placeholder="우편번호" value="${userVo.zipcd}">
 						</div>
 					</div>
-					<%
-						SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-					%>
 					<div class="form-group">
 						<label for="userNm" class="col-sm-2 control-label"><span class="fontsize">생년월일</span></label>
 						<div class="col-sm-10">
 							<input type="text" class="form-control" id="birth" name="birth"
-								placeholder="생년월일" value="<%=sdf.format(selectUserVo.getBirth())%>">
+								placeholder="생년월일" value="<fmt:formatDate value="${userVo.birth}" pattern="yyyy-MM-dd" />">
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="userNm" class="col-sm-2 control-label"><span class="fontsize">이메일</span></label>
 						<div class="col-sm-10">
 							<input type="text" class="form-control" id="email" name="email"
-								placeholder="이메일" value="<%=selectUserVo.getEmail()%>">
+								placeholder="이메일" value="${userVo.email}">
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="userNm" class="col-sm-2 control-label"><span class="fontsize">연락처</span></label>
 						<div class="col-sm-10">
 							<input type="text" class="form-control" id="tel" name="tel"
-								placeholder="연락처" value="<%=selectUserVo.getTel()%>">
+								placeholder="연락처" value="${userVo.tel}">
 						</div>
 					</div>
 

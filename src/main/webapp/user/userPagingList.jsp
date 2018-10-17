@@ -3,6 +3,8 @@
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -69,17 +71,19 @@ $(document).ready(function(){
 								List<UserVo> userList = (List<UserVo>)request.getAttribute("userList");
 								
 								SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-								for(UserVo uv : userList){
 								%>
-								<tr class="userClick">
-									<td><%=uv.getRnum() %></td>
-									<td>
-										<a class="ida" href="/userDetail?userId=<%=uv.getUserId()%>"><%=uv.getUserId() %></a>
-									</td>
-									<td><%=uv.getName() %></td>
-									<td><%=sdf.format(uv.getBirth()) %></td>
-								</tr>
-								<%} %>
+								<c:forEach items="${userList}" var="vo" varStatus="status">
+									<tr class="userClick">
+										<td>${status.index+1}</td>
+										<td>
+											<a class="ida" href="/userDetail?userId=${vo.userId}">
+												${vo.userId}
+											</a>
+										</td>
+										<td>${vo.name}</td>
+										<td><fmt:formatDate value="${vo.birth}" pattern="yyyy-MM-dd" /></td>
+									</tr>
+								</c:forEach>
 							</table>
 						</div>
 
@@ -94,14 +98,12 @@ $(document).ready(function(){
 								</li>
 								<%
 									int pageCnt = (Integer) request.getAttribute("pageCnt");
-									for(int p=1; p<=pageCnt; p++){
 								%>
-										<li><a href="/userPageList?page=<%=p%>&pageSize=10"><%=p%></a></li>
-								<%
-									}
-								%>
+								<c:forEach begin="1" end="${pageCnt}" var="p">
+									<li><a href="/userPageList?page=${p}&pageSize=10">${p}</a></li>
+								</c:forEach>
 								<li>
-									<a href="/userPageList?page=<%=pageCnt%>&pageSize=10" aria-label="Next">
+									<a href="/userPageList?page=${pageCnt}&pageSize=10" aria-label="Next">
 										<span aria-hidden="true">&raquo;</span>
 									</a>
 								</li>
