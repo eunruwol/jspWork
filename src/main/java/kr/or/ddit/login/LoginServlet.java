@@ -134,12 +134,8 @@ public class LoginServlet extends HttpServlet{
 //			pw.println("		userId : " + userId + "<br>");
 //		pw.println("		password : " + req.getParameter("password") + "<br>");
 //		pw.println("		</body>");
-//		pw.println("	</html>");
-		
+//		pw.println("	</html>");		
 	}
-	
-	
-	
 }
 
 
