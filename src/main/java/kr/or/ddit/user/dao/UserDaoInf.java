@@ -3,6 +3,7 @@ package kr.or.ddit.user.dao;
 import java.util.List;
 
 import kr.or.ddit.user.model.PageVo;
+import kr.or.ddit.user.model.ProdVo;
 import kr.or.ddit.user.model.UserVo;
 
 public interface UserDaoInf {
@@ -23,6 +24,15 @@ public interface UserDaoInf {
 	* Method 설명 : 사용자 전체 건수 조회
 	*/
 	int getUserCnt();
+	
+	/**
+	* Method : getUserCnt
+	* 작성자 : pc18
+	* 변경이력 :
+	* @return
+	* Method 설명 : 제품 전체 건수 조회
+	*/
+	int getProdCnt();
 	
 	/**
 	* Method : insertUser
@@ -63,4 +73,24 @@ public interface UserDaoInf {
 	* Method 설명 : 해당 profile 조회
 	*/
 	String selectProfile(String userId);
+	
+	/**
+	* Method : selectProdList
+	* 작성자 : pc18
+	* 변경이력 :
+	* @param pageVo
+	* @return
+	* Method 설명 : 제품 페이징 조회
+	*/
+	List<ProdVo> selectProdList(PageVo pageVo);
+	
+	/**
+	* Method : selectProd
+	* 작성자 : pc18
+	* 변경이력 :
+	* @param prod_id
+	* @return
+	* Method 설명 : 제품 상세 조회
+	*/
+	ProdVo selectProd(String prod_id);
 }

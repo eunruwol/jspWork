@@ -25,6 +25,10 @@
 		select count(*) from jspuser
 	</select>
 	
+	<select id="getProdCnt" resultType="int">
+		select count(*) from prod
+	</select>
+	
 	<!-- 사용자 등록 -->
 	<insert id="insertUser" parameterType="userVo">
 	INSERT INTO JSPUSER	(USERID, NAME, PASS, ADDR1, ADDR2, ZIPCD, BIRTH, EMAIL, TEL, PROFILE)
@@ -57,5 +61,21 @@
 	SELECT	PROFILE
 	FROM	JSPUSER
 	WHERE	USERID = #{userId}
+	</select>
+	
+	<!-- 제품 조회 -->
+	<select id="selectProdList" parameterType="pageVo" resultType="prodVo">
+		select * from (select rownum rnum, a.* from
+		(select prod.* from prod order by prod_id) a)
+		where rnum between #{page}*#{pageSize}-(#{pageSize}-1) and #{page}*#{pageSize}
+	</select>
+	
+	<!-- 제품 상세 조회 -->
+	<select id="selectProd" parameterType="String" resultType="prodVo">
+		SELECT  *
+		FROM    PROD
+		INNER   JOIN    BUYER
+		ON      PROD_BUYER = BUYER_ID
+		WHERE   PROD_ID = #{prod_id}
 	</select>
 </mapper>

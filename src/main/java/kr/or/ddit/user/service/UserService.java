@@ -6,6 +6,7 @@ import java.util.Map;
 
 import kr.or.ddit.user.dao.UserDao;
 import kr.or.ddit.user.model.PageVo;
+import kr.or.ddit.user.model.ProdVo;
 import kr.or.ddit.user.model.UserVo;
 
 public class UserService implements UserServiceInf{
@@ -75,5 +76,26 @@ public class UserService implements UserServiceInf{
 	public String selectProfile(String userId) {
 		UserDao userDao = new UserDao();
 		return userDao.selectProfile(userId);
+	}
+
+	@Override
+	public Map<String, Object> selectProdList(PageVo pageVo) {
+		// 페이지에 해당하는 유저 리스트(1~10건 사이)
+		List<ProdVo> userList = userDao.selectProdList(pageVo);
+		
+		// 페이지 내비게이션을 위한 전체 유저 리스트 조회
+		int totalProdCnt = userDao.getProdCnt();
+		
+		// 결과를 담는 map
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("userList", userList);
+		resultMap.put("pageCnt", (int)Math.ceil((double)totalProdCnt / pageVo.getPageSize()));
+		
+		return resultMap;
+	}
+	
+	@Override
+	public ProdVo selectProd(String prod_id) {
+		return userDao.selectProd(prod_id);
 	}
 }

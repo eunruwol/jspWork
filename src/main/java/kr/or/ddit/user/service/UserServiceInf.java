@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import kr.or.ddit.user.model.PageVo;
+import kr.or.ddit.user.model.ProdVo;
 import kr.or.ddit.user.model.UserVo;
 
 public interface UserServiceInf {
@@ -63,4 +64,24 @@ public interface UserServiceInf {
 	* Method 설명 : 해당 profile 조회
 	*/
 	String selectProfile(String userId);
+	
+	/**
+	* Method : selectProdList
+	* 작성자 : pc18
+	* 변경이력 :
+	* @param pageVo
+	* @return
+	* Method 설명 : 제품 조회
+	*/
+	Map<String, Object> selectProdList(PageVo pageVo);
+	
+	/**
+	* Method : selectUser
+	* 작성자 : pc18
+	* 변경이력 :
+	* @param userId
+	* @return
+	* Method 설명 : 제품 상세 조회
+	*/
+	ProdVo selectProd(String prod_id);
 }

@@ -13,11 +13,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
 import kr.or.ddit.user.model.PageVo;
+import kr.or.ddit.user.model.ProdVo;
 import kr.or.ddit.user.model.UserVo;
 import kr.or.ddit.user.service.UserService;
 import kr.or.ddit.user.service.UserServiceInf;
 
-@WebServlet(urlPatterns={"/userAllList", "/userPageList", "/userDetail"})
+@WebServlet(urlPatterns={"/userAllList", "/userPageList", "/userDetail", "/userProdList", "/prodDetail"})
 public class UserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -39,8 +40,33 @@ public class UserServlet extends HttpServlet {
 		else if(uri.equals("/userDetail"))
 			userDetail(request, response);
 		
+		// 제품 페이징 조회
+		else if(uri.equals("/userProdList"))
+			userProdList(request, response);
+		
+		// 제품 상세 조회
+		else if(uri.equals("/prodDetail"))
+			prodDetail(request, response);
+		
 	}
 	
+	private void prodDetail(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		// 사용자 아이디가 파라미터로 넘어옴
+		String prod_id = request.getParameter("prod_id");
+		
+		// 사용자 아이디에 해당하는 사용자 정보 조회
+		UserServiceInf userService = new UserService();
+		ProdVo prodVo = userService.selectProd(prod_id);
+		
+		// jsp로 위임하기 위해 사용자 정보를 request에 저장
+		request.setAttribute("prodVo", prodVo);
+		
+		// 사용자 상세 화면으로 위임
+		request.getRequestDispatcher("/user/prodDetail.jsp").forward(request, response);
+		
+	}
+
 	private void userDetail(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		
@@ -115,6 +141,36 @@ public class UserServlet extends HttpServlet {
 		
 		RequestDispatcher rd = request.getRequestDispatcher("/user/userAllList.jsp");
 		rd.forward(request, response);
+	}
+	
+	private void userProdList(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		
+		// userService 생성
+		UserServiceInf userSerivce = new UserService();
+		
+		// userPageList 호출 : 메소드 인자 - pageVo : page, pageSize
+		int page = Integer.parseInt(request.getParameter("page"));
+		int pageSize = Integer.parseInt(request.getParameter("pageSize"));
+		PageVo pageVo = new PageVo();
+		pageVo.setPage(page);
+		pageVo.setPageSize(pageSize);
+		
+		Map<String, Object> resultMap = userSerivce.selectProdList(pageVo);
+		
+		// 페이지 리스트
+		List<ProdVo> userList = (List<ProdVo>) resultMap.get("userList");
+		
+		// 페이지 건수
+		int pageCnt = (int) resultMap.get("pageCnt");
+		System.out.println(pageCnt);
+		
+		// request 객체에 저장
+		request.setAttribute("userList", userList);
+		request.setAttribute("pageCnt", pageCnt);
+		
+		// forward (userAllList.jsp → userPaingList.jsp)
+		request.getRequestDispatcher("/user/userProdList.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{}

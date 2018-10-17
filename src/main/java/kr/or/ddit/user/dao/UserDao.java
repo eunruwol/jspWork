@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSessionFactory;
 
 import kr.or.ddit.db.SqlFactoryBuilder;
 import kr.or.ddit.user.model.PageVo;
+import kr.or.ddit.user.model.ProdVo;
 import kr.or.ddit.user.model.UserVo;
 
 public class UserDao implements UserDaoInf{
@@ -61,6 +62,24 @@ public class UserDao implements UserDaoInf{
 		session.close();
 		
 		return totalUserCnt;
+	}
+	
+	/**
+	* Method : getUserCnt
+	* 작성자 : pc18
+	* 변경이력 :
+	* @return
+	* Method 설명 : 제품 전체 건수 조회
+	*/
+	@Override
+	public int getProdCnt() {
+		SqlSessionFactory sqlFactory = SqlFactoryBuilder.getSqlSessionFactory();
+		SqlSession session = sqlFactory.openSession();
+		
+		int totalProdCnt = session.selectOne("user.getProdCnt");
+		session.close();
+		
+		return totalProdCnt;
 	}
 	
 	/**
@@ -135,5 +154,23 @@ public class UserDao implements UserDaoInf{
 		session.close();
 		
 		return result;
+	}
+
+	@Override
+	public List<ProdVo> selectProdList(PageVo pageVo) {
+		SqlSessionFactory sqlFactory = SqlFactoryBuilder.getSqlSessionFactory();
+		SqlSession session = sqlFactory.openSession();
+		List<ProdVo> userList = session.selectList("user.selectProdList", pageVo);
+		session.close();
+		return userList;
+	}
+	
+	@Override
+	public ProdVo selectProd(String prod_id){
+		SqlSessionFactory sqlFactory = SqlFactoryBuilder.getSqlSessionFactory();
+		SqlSession session = sqlFactory.openSession();
+		ProdVo prodVo = session.selectOne("user.selectProd", prod_id);
+		session.close();
+		return prodVo;
 	}
 }
