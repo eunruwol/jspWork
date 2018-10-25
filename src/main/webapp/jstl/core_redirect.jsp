@@ -6,20 +6,11 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
-<style type="text/css">
-table{border-collapse:collapse;border:1px solid #ccc}
-td{padding:5px}
-</style>
 </head>
+
 <body>
-<table border="1">
-<c:forEach begin="1" end="9" var="i">
-	<tr>
-		<c:forEach begin="2" end="9" var="j">
-			<td>${j} * ${i} = ${j*i}</td>	
-		</c:forEach>
-	</tr>
-</c:forEach>
-</table>
+<c:redirect url="timestablesjstl.jsp">
+	<c:param name="number" value="7"></c:param>
+</c:redirect>
 </body>
 </html>

@@ -124,4 +124,16 @@ public class UserVo {
 				+ tel + ", profile=" + profile + ", birth=" + birth
 				+ ", rownum=" + rnum + "]";
 	}
+	
+	/**
+	* Method : authPass
+	* 작성자 : pc18
+	* 변경이력 :
+	* @param encrytPass
+	* @return
+	* Method 설명 : 비밀번호 검증
+	*/
+	public boolean authPass(String encrytPass) {
+		return getPass().equals(encrytPass);
+	}
 }
