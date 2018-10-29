@@ -1,7 +1,5 @@
 package kr.or.ddit.locales;
 
-import static org.junit.Assert.*;
-
 import java.util.TimeZone;
 
 import org.junit.Test;

@@ -1,9 +1,5 @@
 package kr.or.ddit.util.model;
 
-import static org.junit.Assert.assertEquals;
-
-import org.junit.Test;
-
 public class StringUtil {
 	public static String getFileNameFromHeader(String contentDisposition){
 		String fileName = "";
