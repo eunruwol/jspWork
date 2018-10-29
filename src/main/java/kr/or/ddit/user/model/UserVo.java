@@ -2,7 +2,10 @@ package kr.or.ddit.user.model;
 
 import java.util.Date;
 
-public class UserVo {
+import javax.servlet.http.HttpSessionBindingEvent;
+import javax.servlet.http.HttpSessionBindingListener;
+
+public class UserVo implements HttpSessionBindingListener{
 	
 	private String userId;
 	private String name;
@@ -135,5 +138,15 @@ public class UserVo {
 	*/
 	public boolean authPass(String encrytPass) {
 		return getPass().equals(encrytPass);
+	}
+
+	@Override
+	public void valueBound(HttpSessionBindingEvent event) {
+		System.out.println("userVo : " + event.getName());
+	}
+
+	@Override
+	public void valueUnbound(HttpSessionBindingEvent event) {
+		
 	}
 }

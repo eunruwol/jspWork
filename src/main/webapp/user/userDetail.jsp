@@ -72,7 +72,8 @@ $(document).ready(function(){
 								<img src="/profile/noimage.png" class="images"/>
 							</c:if>
 							<c:if test="${userVo.profile != null}">
-								<img src="${userVo.profile}" class="images"/>
+								<!--<img src="${userVo.profile}" class="images"/>-->
+								<img src="/fileDownload?userId=${userVo.userId}">
 							</c:if>
 							<input type="file" id="profile" name="profile" />
 						</div>

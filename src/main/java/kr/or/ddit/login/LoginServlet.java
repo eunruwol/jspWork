@@ -3,6 +3,7 @@ package kr.or.ddit.login;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -31,6 +32,7 @@ public class LoginServlet extends HttpServlet{
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		
+		String newParameter = req.getParameter("newParameter");
 		//1. 사용자 아이디와 비밀번호를 request객체에서 받아옴
 		//2. db 에서 조회해온 아이디, 비밀번호를 체크
 		//3-1. 일치할 경우 main.jsp로 이동
@@ -42,14 +44,12 @@ public class LoginServlet extends HttpServlet{
 		
 		// remember-me 파라미터 받아서 sysout으로 출력
 		String rememberMe = req.getParameter("remember-me");
-		System.out.println("rememberMe : " + rememberMe);
 		
 		// rememberMe == null : 아이디 기억 사용 안함
 		if(rememberMe == null){
 			Cookie[] cookies = req.getCookies();
 			for(Cookie cookie : cookies){
 				// cookie 이름이 remember, userId 일경우 maxage를 -1설정하여 쿠키를 유효하지 않도록 설정
-				System.out.println(cookie.getName());
 				if(cookie.getName().equals("remember") || cookie.getName().equals("userId")){
 					// -1 : 브라우저 재시작시 쿠키 삭제 반영
 					// 0 : 바로 삭제
